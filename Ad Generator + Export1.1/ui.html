@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+<header>
+  <link rel="stylesheet" type="text/css" href="./ui.css">
+</header>
+
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <div class="content">
+    <div class="settings-panel">
+      <h2>SETTINGS</h2>
+      <div class="setting-group">
+        <div class="label">
+          <label>Country</label>
+        </div>
+        <input type="text" value="NO" id="lang" />
+      </div>
+      <div class="setting-group">
+        <div class="label">
+          <label>Category</label>
+        </div>
+        <input type="text" value="TP" id="category" />
+      </div>
+      <div class="setting-group">
+        <div class="label">
+          <label>Campaign</label>
+        </div>
+        <input type="text" value="EVERGREEN" id="campaign" />
+      </div>
+      <div class="setting-group">
+        <div class="label">
+          <label>Hook</label>
+        </div>
+        <input type="text" value="HACK" id="hook" />
+      </div>
+      <div class="setting-group">
+        <div class="label">
+          <label>Version</label>
+        </div>
+        <input type="text" value="1" id="version" />
+      </div>
+      <div class="button-group">
+        <button id="generate">Generate</button>
+        <button id="export">Export</button>
+        <button id="cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    document.getElementById('generate').onclick = () => {
+      const inputData = {
+        lang: document.getElementById("lang").value,
+        category: document.getElementById("category").value,
+        campaign: document.getElementById("campaign").value,
+        hook: document.getElementById("hook").value,
+        version: document.getElementById("version").value
+      }
+      parent.postMessage({ pluginMessage: { type: 'generate-ads', data: inputData } }, '*');
+    };
+
+    document.getElementById('export').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'export-ads' } }, '*');
+    };
+    document.getElementById("cancel").onclick = () => {
+      parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+    };
+
+    onmessage = async (event) => {
+      const { type, files, fileName, message, message2 } = event.data.pluginMessage;
+      if (type === "EXPORT_ZIP") {
+        const zip = new JSZip();
+        for (const file of files) {
+          zip.file(file.name, new Uint8Array(file.bytes));
+        }
+
+        const blob = await zip.generateAsync({ type: "blob" });
+        const url = URL.createObjectURL(blob);
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const day = String(today.getDate()).padStart(2, '0');
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        const seconds = String(today.getSeconds()).padStart(2, '0');
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${fileName}(${year}${month}${day}${hours}${minutes}${seconds}).zip`;
+        a.click();
+      }
+    };
+  </script>
+</body>
+
+</html>

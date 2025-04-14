@@ -1,0 +1,74 @@
+body {
+    background-color: #ffeb3b;
+    font-family: sans-serif;
+  }
+
+  .settings-panel {
+    background-color: #ffeb3b;
+    width: 300px;
+    /* border-radius: 8px; */
+  }
+
+  .settings-panel h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #000;
+  }
+
+  .setting-group {
+    margin-bottom: 7px;
+    display: flex;
+    align-items: center;
+  }
+
+  .setting-group label {
+    display: block;
+    font-size: 14px;
+    /* margin-bottom: 4px; */
+    color: #000;
+  }
+
+  .setting-group input {
+    width: 100%;
+    padding: 3px 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    font-weight: bold;
+    cursor: default;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .button-group button {
+    background-color: #4e403b;
+    color: white;
+    padding: 5px 8px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 80px;
+  }
+
+  .label {
+    display: flex;
+    width: 100px;
+    margin-right: 10px;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .button-group button:hover {
+    background-color: #3a2e2a;
+  }
